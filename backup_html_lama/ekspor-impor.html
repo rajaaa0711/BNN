@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Pusat Pengelolaan Dokumen, Ekspor & Impor Data - SIM-REHAB BNNK Buleleng">
+  <title>SIM-REHAB | Ekspor &amp; Impor Data - BNNK Buleleng</title>
+  <link rel="icon" type="image/png" href="assets/images/bnn.png">
+  <link rel="stylesheet" href="assets/css/ekspor-impor.css">
+  <!-- Library SheetJS untuk Export & Import Excel Asli (.xlsx) -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+</head>
+
+<body>
+  <div class="app-layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <img src="assets/images/bnn.png" alt="Logo BNN" class="sidebar-logo">
+        <h1 class="sidebar-title">SIM-REHAB</h1>
+        <p class="sidebar-subtitle">BNNK BULELENG</p>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="dashboard.html" class="nav-item">
+          <span class="nav-icon">&#8962;</span>
+          Dashboard Utama
+        </a>
+        <a href="input-pasien.html" class="nav-item">
+          <span class="nav-icon">&#128100;</span>
+          Input Pasien Baru
+        </a>
+        <a href="monitoring-pasien.html" class="nav-item">
+          <span class="nav-icon">&#128269;</span>
+          Monitoring Pasien
+        </a>
+        <a href="ekspor-impor.html" class="nav-item active">
+          <span class="nav-icon">&#128194;</span>
+          Ekspor / Impor Data
+        </a>
+      </nav>
+
+      <div class="sidebar-user">
+        <p class="user-role" id="userRole">Super User (Kasi Rehab)</p>
+        <p class="user-id" id="userId">ID: 2121 (Seksi Rehab)</p>
+        <a href="index.html" class="logout-link" id="logoutBtn">[ Logout / Keluar ]</a>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content ekspor-main">
+      <!-- Header Bar -->
+      <header class="page-header">
+        <h2 class="page-title">PUSAT PENGELOLAAN DOKUMEN, EKSPOR &amp; IMPORT DATA RESMI BNN</h2>
+        <span class="instansi-badge">SIM-REHAB BNNK BULELENG</span>
+      </header>
+
+      <!-- Mode Switcher Tabs -->
+      <div class="mode-tabs-wrapper">
+        <button type="button" class="mode-tab-btn active" id="tabBtnExport">
+          <span class="tab-indicator">&#9632;</span>
+          [-] EKSPOR BUKU REGISTER &amp; LAPORAN (EXCEL &amp; PDF)
+        </button>
+        <button type="button" class="mode-tab-btn" id="tabBtnImport">
+          <span class="tab-indicator">&#9633;</span>
+          [ ] IMPORT DATA SPREADSHEET BNN (2018 - 2026)
+        </button>
+      </div>
+
+      <!-- Content Scroll Wrapper -->
+      <div class="content-scroll-wrapper">
+
+        <!-- ================= PANEL 1: EKSPOR DATA ================= -->
+        <section class="panel-section" id="exportViewPanel">
+
+          <!-- Card 1: Parameter Penarikan Data Laporan -->
+          <article class="filter-card">
+            <h3 class="card-section-title">PARAMETER PENARIKAN DATA BUKU REGISTER BNN</h3>
+
+            <div class="filter-params-grid">
+              <!-- Parameter 1: Tahun Rehab -->
+              <div class="param-group">
+                <label class="param-label" for="filterTahunExport">Tahun Rehabilitasi <span class="req">*</span></label>
+                <select id="filterTahunExport" class="select-input" style="font-weight: 600;">
+                  <option value="semua" selected>📅 Semua Tahun (2018 - 2026)</option>
+                  <option value="2026">Tahun 2026</option>
+                  <option value="2025">Tahun 2025</option>
+                  <option value="2024">Tahun 2024</option>
+                  <option value="2023">Tahun 2023</option>
+                  <option value="2022">Tahun 2022</option>
+                  <option value="2021">Tahun 2021</option>
+                  <option value="2020">Tahun 2020</option>
+                  <option value="2019">Tahun 2019</option>
+                  <option value="2018">Tahun 2018</option>
+                </select>
+              </div>
+
+              <!-- Parameter 2: Status Progres -->
+              <div class="param-group">
+                <label class="param-label">Status Progres Klien <span class="req">*</span></label>
+                <div class="status-checkboxes-group">
+                  <label class="chk-label">
+                    <input type="checkbox" id="chkOngoing" checked>
+                    <span>On Going</span>
+                  </label>
+                  <label class="chk-label">
+                    <input type="checkbox" id="chkSelesai" checked>
+                    <span>Selesai</span>
+                  </label>
+                  <label class="chk-label">
+                    <input type="checkbox" id="chkDropout" checked>
+                    <span>DO</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Parameter 3: Kecamatan -->
+              <div class="param-group">
+                <label class="param-label" for="selectKecamatan">Kecamatan Asal</label>
+                <select id="selectKecamatan" class="select-input">
+                  <option value="semua">Seluruh Kecamatan</option>
+                  <option value="buleleng">Buleleng</option>
+                  <option value="sukasada">Sukasada</option>
+                  <option value="seririt">Seririt</option>
+                  <option value="gerokgak">Gerokgak</option>
+                  <option value="banjar">Banjar</option>
+                  <option value="sawan">Sawan</option>
+                  <option value="kubutambahan">Kubutambahan</option>
+                  <option value="busungbiu">Busungbiu</option>
+                  <option value="tejakula">Tejakula</option>
+                </select>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 2: Preview Rekapitulasi Data BNN -->
+          <article class="preview-card">
+            <div class="preview-official-header">
+              <h4 class="bnn-title-main">DATA KLIEN REHABILITASI DI KLINIK PRATAMA BNNK BULELENG</h4>
+              <p class="bnn-title-sub" id="previewPeriodTitle">2018 SAMPAI 2026</p>
+            </div>
+
+            <div class="table-responsive-box" style="overflow-x: auto;">
+              <table class="export-preview-table" id="exportTable" style="min-width: 1050px;">
+                <thead>
+                  <tr>
+                    <th class="center" style="width: 40px;">No</th>
+                    <th class="center" style="width: 75px;">No. Surat</th>
+                    <th style="width: 120px;">Tgl Kedatangan</th>
+                    <th style="width: 180px;">Kepada (Rujukan)</th>
+                    <th style="width: 90px;">Kabupaten</th>
+                    <th style="width: 140px;">Nama Klien</th>
+                    <th class="center" style="width: 70px;">JK/Umur</th>
+                    <th style="width: 100px;">Pekerjaan</th>
+                    <th style="width: 110px;">Desa/Kec.</th>
+                    <th style="width: 140px;">Status Rawat</th>
+                    <th class="center" style="width: 60px;">Tahun</th>
+                    <th style="width: 100px;">No HP</th>
+                    <th class="center" style="width: 90px;">Status</th>
+                  </tr>
+                </thead>
+                <tbody id="exportTbody">
+                  <!-- Di-render via JS -->
+                </tbody>
+              </table>
+            </div>
+
+            <div class="preview-footer-bar">
+              <div class="preview-footer-left">
+                <span class="sync-indicator">&#9679; Data tersinkronisasi otomatis dengan standar register BNNK Buleleng</span>
+              </div>
+              <div class="preview-footer-right">
+                <span class="total-badge" id="totalExportBadge">Total Terpilih: 0 Data</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Action Buttons Bar -->
+          <div class="export-actions-grid">
+            <button type="button" class="btn-action-green" id="btnExportExcel"
+              title="Unduh data dalam format Excel resmi BNN .xlsx">
+              <span class="btn-icon">&#128196;</span>
+              [Unduh Spreadsheet Excel Standar BNN (.xlsx)]
+            </button>
+            <button type="button" class="btn-action-red" id="btnExportPdf"
+              title="Cetak laporan resmi berkop dinas BNN">
+              <span class="btn-icon">&#128438;</span>
+              [Cetak Laporan Resmi Berkop PDF (.pdf)]
+            </button>
+          </div>
+
+        </section>
+
+        <!-- ================= PANEL 2: IMPOR DATA SPREADSHEET BNN ================= -->
+        <section class="panel-section hidden" id="importViewPanel">
+
+          <!-- Card 1: Informasi Format & Unduh Template -->
+          <article class="filter-card">
+            <div class="import-guide-header">
+              <div>
+                <h3 class="card-section-title">IMPORT DATA SPREADSHEET BNNK BULELENG (2018 - 2026)</h3>
+                <p class="import-guide-desc">
+                  Fitur ini mendukung langsung file Google Sheet / Excel asli BNNK Buleleng
+                  (17 kolom: No, Nomor Surat, Tgl Kedatangan, Kepada, Kabupaten, Nama, Umur, JK, Pekerjaan, Tgl Lahir, Alamat, Desa, Kecamatan, Kab Asal, Status Rawat, Tahun Rehab, No HP).
+                </p>
+              </div>
+              <button type="button" class="btn-template-download" id="btnDownloadTemplate">
+                <span class="btn-icon">&#128229;</span>
+                [Unduh Template 17 Kolom Format Resmi BNN (.xlsx)]
+              </button>
+            </div>
+          </article>
+
+          <!-- Card 2: Area Unggah File & Konfigurasi -->
+          <article class="import-upload-card">
+            <div class="upload-config-row">
+              <div class="config-item">
+                <label for="importTahunTarget" class="param-label">Tahun Arsip Target:</label>
+                <select id="importTahunTarget" class="select-input select-sm">
+                  <option value="2026" selected>Tahun 2026</option>
+                  <option value="2025">Tahun 2025</option>
+                  <option value="2024">Tahun 2024</option>
+                  <option value="2023">Tahun 2023</option>
+                  <option value="2022">Tahun 2022</option>
+                  <option value="2021">Tahun 2021</option>
+                  <option value="2020">Tahun 2020</option>
+                  <option value="2019">Tahun 2019</option>
+                  <option value="2018">Tahun 2018</option>
+                  <option value="lainnya">Campuran (2018-2026)</option>
+                </select>
+              </div>
+
+              <div class="config-item">
+                <label class="param-label">Metode Impor Data:</label>
+                <div class="import-mode-radios">
+                  <label class="radio-import-opt">
+                    <input type="radio" name="importMode" value="append" checked>
+                    <span>Gabungkan ke Data Ada (Tambahkan)</span>
+                  </label>
+                  <label class="radio-import-opt">
+                    <input type="radio" name="importMode" value="overwrite">
+                    <span>Ganti / Timpa Seluruh Data</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Dropzone Area -->
+            <div class="dropzone-box" id="dropzoneBox">
+              <input type="file" id="fileInputExcel" accept=".xlsx, .xls, .csv" class="file-hidden-input">
+              <div class="dropzone-inner">
+                <div class="dropzone-icon">&#128194;</div>
+                <h4 class="dropzone-title">Tarik &amp; Lepaskan File Spreadsheet BNN di Sini</h4>
+                <p class="dropzone-sub">atau klik untuk memilih file dari komputer Anda (.xlsx, .xls, .csv)</p>
+                <button type="button" class="btn-browse-file" id="btnBrowseFile">Pilih File Spreadsheet</button>
+                <span class="file-name-indicator" id="fileNameIndicator"></span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 3: Preview Data Impor Sebelum Disimpan -->
+          <article class="preview-card hidden" id="importPreviewCard">
+            <div class="preview-official-header">
+              <h4 class="bnn-title-main">PREVIEW DATA DOKUMEN YANG AKAN DIIMPOR</h4>
+              <p class="bnn-title-sub" id="importPreviewSummary">Terbaca: 0 Data Pasien</p>
+            </div>
+
+            <div class="table-responsive-box" style="overflow-x: auto;">
+              <table class="export-preview-table" style="min-width: 1050px;">
+                <thead>
+                  <tr>
+                    <th class="center" style="width: 40px;">No</th>
+                    <th class="center" style="width: 75px;">No. Surat</th>
+                    <th style="width: 130px;">Tgl Kedatangan</th>
+                    <th>Nama Klien</th>
+                    <th class="center" style="width: 75px;">JK/Umur</th>
+                    <th style="width: 110px;">Desa &amp; Kec.</th>
+                    <th style="width: 170px;">Kepada (Rujukan)</th>
+                    <th style="width: 140px;">Status Rawat</th>
+                    <th class="center" style="width: 60px;">Tahun</th>
+                    <th style="width: 100px;">No HP</th>
+                    <th class="center" style="width: 85px;">Status</th>
+                    <th class="center" style="width: 90px;">Validasi</th>
+                  </tr>
+                </thead>
+                <tbody id="importPreviewTbody">
+                  <!-- Di-render via JS -->
+                </tbody>
+              </table>
+            </div>
+
+            <div class="import-action-bar">
+              <button type="button" class="btn-cancel-import" id="btnCancelImport">Batal &amp; Reset File</button>
+              <button type="button" class="btn-save-import" id="btnProcessImport">
+                <span class="btn-icon">&#128190;</span>
+                [Simpan &amp; Masukkan ke Database SIM-REHAB]
+              </button>
+            </div>
+          </article>
+
+        </section>
+
+      </div>
+    </main>
+
+  </div>
+
+  <!-- ================= PRINTABLE OFFICIAL REPORT CONTAINER ================= -->
+  <div class="print-official-container" id="printReportContainer">
+    <!-- Kop Surat Resmi BNNK Buleleng -->
+    <div class="kop-surat">
+      <div class="kop-logo-left">
+        <img src="assets/images/bnn.png" alt="Logo BNN" class="kop-logo-img">
+      </div>
+      <div class="kop-text">
+        <h2 class="kop-instansi-1">BADAN NARKOTIKA NASIONAL REPUBLIK INDONESIA</h2>
+        <h1 class="kop-instansi-2">BADAN NARKOTIKA NASIONAL KABUPATEN BULELENG</h1>
+        <p class="kop-alamat">Jl. Teleng No.3, Banyuasri, Kec. Buleleng, Kabupaten Buleleng, Bali 81116</p>
+        <p class="kop-kontak">Telepon: (0362) 3303358 | Email: bnnk_buleleng@bnn.go.id | Website: bulelengkab.bnn.go.id</p>
+      </div>
+    </div>
+    <div class="kop-line-double"></div>
+
+    <!-- Judul & Metadata Laporan -->
+    <div class="print-doc-header">
+      <h3 class="print-doc-title">DATA KLIEN REHABILITASI DI KLINIK PRATAMA BNNK BULELENG (2018 - 2026)</h3>
+      <p class="print-doc-nomor" id="printDocNomor">Nomor: B / REKAP-REHAB / BNNK-BLG / IX / 2026</p>
+      <div class="print-metadata-grid">
+        <div><strong>Tahun Laporan:</strong> <span id="printPeriodeTxt">2018 SAMPAI 2026</span></div>
+        <div><strong>Wilayah:</strong> <span id="printWilayahTxt">Seluruh Kecamatan (Kab. Buleleng)</span></div>
+        <div><strong>Status Progres:</strong> <span id="printStatusTxt">On Going, Selesai, DO</span></div>
+        <div><strong>Total Klien:</strong> <span id="printTotalTxt">0 Klien Terdaftar</span></div>
+      </div>
+    </div>
+
+    <!-- Tabel Cetak 17 Kolom BNN -->
+    <table class="print-table" id="printReportTable">
+      <thead>
+        <tr>
+          <th style="width: 25px;" class="center">NO</th>
+          <th style="width: 65px;" class="center">NO. SURAT</th>
+          <th style="width: 90px;">TGL KEDATANGAN</th>
+          <th style="width: 130px;">KEPADA (RUJUKAN)</th>
+          <th style="width: 65px;">KAB</th>
+          <th>NAMA KLIEN</th>
+          <th style="width: 55px;" class="center">JK/UMUR</th>
+          <th style="width: 75px;">PEKERJAAN</th>
+          <th style="width: 85px;">DESA / KEC</th>
+          <th style="width: 110px;">STATUS RAWAT</th>
+          <th style="width: 45px;" class="center">TAHUN</th>
+          <th style="width: 75px;">NO HP</th>
+          <th style="width: 65px;" class="center">STATUS</th>
+        </tr>
+      </thead>
+      <tbody id="printTbody">
+        <!-- Rendered via JS for print -->
+      </tbody>
+    </table>
+
+    <!-- Tanda Tangan Pejabat BNN -->
+    <div class="print-signatures-row">
+      <div class="sig-box">
+        <p class="sig-date">Mengetahui,</p>
+        <p class="sig-job">Kepala Seksi Rehabilitasi<br>BNNK Buleleng</p>
+        <div class="sig-space"></div>
+        <p class="sig-name"><strong>A.A. Gede Rai Wijaya, S.Psi.</strong></p>
+        <p class="sig-nip">NIP. 19820415 200801 1 003</p>
+      </div>
+
+      <div class="sig-box">
+        <p class="sig-date" id="printTtdDate">Singaraja, 22 September 2026</p>
+        <p class="sig-job">Kepala BNN Kabupaten Buleleng</p>
+        <div class="sig-space"></div>
+        <p class="sig-name"><strong>AKBP Gede Astawa, S.H., M.H.</strong></p>
+        <p class="sig-nip">NIP. 19741120 199903 1 001</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast-msg" id="toastMsg"></div>
+
+  <script src="assets/js/ekspor-impor.js"></script>
+</body>
+
+</html>

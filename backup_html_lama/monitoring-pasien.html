@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Tabel Data & Monitoring Pasien Rehabilitasi - BNNK Buleleng">
+  <title>SIM-REHAB | Monitoring Pasien - BNNK Buleleng</title>
+  <link rel="icon" type="image/png" href="assets/images/bnn.png">
+  <link rel="stylesheet" href="assets/css/monitoring-pasien.css">
+</head>
+
+<body>
+  <div class="app-layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <img src="assets/images/bnn.png" alt="Logo BNN" class="sidebar-logo">
+        <h1 class="sidebar-title">SIM-REHAB</h1>
+        <p class="sidebar-subtitle">BNNK BULELENG</p>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="dashboard.html" class="nav-item">
+          <span class="nav-icon">&#8962;</span>
+          Dashboard Utama
+        </a>
+        <a href="input-pasien.html" class="nav-item">
+          <span class="nav-icon">&#128100;</span>
+          Input Pasien Baru
+        </a>
+        <a href="monitoring-pasien.html" class="nav-item active">
+          <span class="nav-icon">&#128269;</span>
+          Monitoring Pasien
+        </a>
+        <a href="ekspor-impor.html" class="nav-item">
+          <span class="nav-icon">&#128194;</span>
+          Ekspor / Impor Data
+        </a>
+      </nav>
+
+      <div class="sidebar-user">
+        <p class="user-role" id="userRole">Super User (Kasi Rehab)</p>
+        <p class="user-id" id="userId">ID: 2121 (Seksi Rehab)</p>
+        <a href="index.html" class="logout-link" id="logoutBtn">[ Logout / Keluar ]</a>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content monitoring-main">
+      <header class="page-header">
+        <h2 class="page-title">TABEL DATA &amp; MONITORING KLIEN REHABILITASI (2018 - 2026)</h2>
+        <span class="total-data-badge" id="totalDataCount">Total Pasien: 0 Data</span>
+      </header>
+
+      <!-- Filter Bar & Search -->
+      <section class="filter-bar">
+        <div class="filter-tabs" id="filterTabs">
+          <button type="button" class="tab-btn active" data-filter="all">Semua</button>
+          <button type="button" class="tab-btn" data-filter="ongoing">On Going</button>
+          <button type="button" class="tab-btn" data-filter="selesai">Selesai</button>
+          <button type="button" class="tab-btn" data-filter="dropout">Drop Out</button>
+
+          <!-- Filter Tahun -->
+          <select id="filterTahunSelect" class="layanan-filter-select" style="font-weight: 600;">
+            <option value="all" selected>📅 Semua Tahun (2018-2026)</option>
+            <option value="2026">Tahun 2026</option>
+            <option value="2025">Tahun 2025</option>
+            <option value="2024">Tahun 2024</option>
+            <option value="2023">Tahun 2023</option>
+            <option value="2022">Tahun 2022</option>
+            <option value="2021">Tahun 2021</option>
+            <option value="2020">Tahun 2020</option>
+            <option value="2019">Tahun 2019</option>
+            <option value="2018">Tahun 2018</option>
+          </select>
+
+          <!-- Filter Layanan -->
+          <select id="filterLayananSelect" class="layanan-filter-select">
+            <option value="all">Semua Layanan</option>
+            <option value="rawat_jalan">🏥 Rawat Jalan</option>
+            <option value="rawat_inap">🏢 Rawat Inap</option>
+          </select>
+        </div>
+
+        <div class="search-wrap">
+          <span class="search-icon">&#128269;</span>
+          <input type="text" id="searchPatient" class="search-input"
+            placeholder="Cari Nama, NIK, No Surat, Desa, No HP..." autocomplete="off">
+        </div>
+      </section>
+
+      <!-- Table Section (Full & Spacious) -->
+      <div class="table-area-wrapper">
+        <div class="table-card">
+          <div class="table-scroll-wrapper" id="tableScrollContainer">
+            <table class="monitoring-table">
+              <thead>
+                <tr>
+                  <th class="center" style="width: 50px;">No</th>
+                  <th class="center" style="width: 110px;">No. Surat</th>
+                  <th class="center" style="width: 140px;">Tgl Kedatangan</th>
+                  <th style="min-width: 200px;">Nama &amp; NIK Klien</th>
+                  <th class="center" style="width: 90px;">JK/Umur</th>
+                  <th style="width: 120px;">Pekerjaan</th>
+                  <th style="min-width: 180px;">Alamat &amp; Asal</th>
+                  <th style="min-width: 220px;">Kepada (Rujukan)</th>
+                  <th style="min-width: 180px;">Status Rawat</th>
+                  <th class="center" style="width: 75px;">Tahun</th>
+                  <th class="center" style="width: 120px;">No HP</th>
+                  <th class="center" style="width: 80px;">Rehab</th>
+                  <th class="center" style="width: 120px;">Status</th>
+                  <th class="center" style="width: 140px;">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="monitoringTbody">
+                <!-- Rendered via JavaScript -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Modal Quick Action -->
+  <div class="modal-overlay" id="quickActionModal">
+    <div class="modal-card" style="max-width: 620px;">
+      <div class="modal-header-bar">
+        <h3 class="modal-header-title">MODAL QUICK ACTION: UPDATE STATUS &amp; PROGRES KLIEN</h3>
+        <button type="button" class="btn-close-modal" id="btnCloseModal" title="Tutup Modal">&times;</button>
+      </div>
+
+      <div class="modal-patient-banner">
+        <span class="patient-banner-icon">&#128100;</span>
+        <div class="patient-banner-text">
+          <strong id="modalPatientName">Klien</strong>
+          <span class="patient-banner-nik" id="modalPatientNik">NIK: -</span>
+        </div>
+      </div>
+
+      <div class="modal-body-content">
+        <div class="form-group">
+          <label class="panel-label">Pilih Status Progres Klien Terbaru: <span class="req">*</span></label>
+          <div class="status-cards-picker">
+            <div class="status-card-opt opt-ongoing active" data-val="ON GOING">
+              <input type="radio" name="modalStatus" value="ON GOING" id="radioOngoing" checked>
+              <label for="radioOngoing">ON GOING / PROSES</label>
+            </div>
+            <div class="status-card-opt opt-selesai" data-val="SELESAI">
+              <input type="radio" name="modalStatus" value="SELESAI" id="radioSelesai">
+              <label for="radioSelesai">SELESAI / PULIH</label>
+            </div>
+            <div class="status-card-opt opt-dropout" data-val="DROP OUT">
+              <input type="radio" name="modalStatus" value="DROP OUT" id="radioDropout">
+              <label for="radioDropout">DROP OUT (DO)</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-top: 12px;">
+          <label for="modalKepada" class="panel-label">Kepada / Instansi Tujuan Rujukan:</label>
+          <select id="modalKepada" class="form-control" style="font-size: 0.78rem; margin-top: 4px; width: 100%; padding: 6px 10px;">
+            <option value="Klinik Pratama BNNK Buleleng">Klinik Pratama BNNK Buleleng (Buleleng)</option>
+            <option value="UPTD. Rumah Sakit Jiwa Provinsi Bali Cq. Poli Psikiatri Rumah Sakit Jiwa Provinsi Bali">UPTD. Rumah Sakit Jiwa Provinsi Bali (Bangli)</option>
+            <option value="Kepala Badan Narkotika Nasional Provinsi Bali Cq. Kepala Bidang Rehabilitasi">Kepala Badan Narkotika Nasional Provinsi Bali (Denpasar)</option>
+            <option value="Balai Besar Rehabilitasi BNN Lido, Bogor">Balai Besar Rehabilitasi BNN Lido, Bogor (Bogor)</option>
+            <option value="Balai Rehabilitasi BNN Badoka, Makassar">Balai Rehabilitasi BNN Badoka, Makassar (Makassar)</option>
+            <option value="Balai Rehabilitasi BNN Tanah Merah, Samarinda">Balai Rehabilitasi BNN Tanah Merah, Samarinda (Samarinda)</option>
+            <option value="Loka Rehabilitasi BNN Batam">Loka Rehabilitasi BNN Batam (Batam)</option>
+          </select>
+        </div>
+
+        <div class="form-group" style="margin-top: 10px;">
+          <label for="modalStatusRawat" class="panel-label">Status Rawatan Pasien:</label>
+          <select id="modalStatusRawat" class="form-control" style="font-size: 0.78rem; margin-top: 4px; width: 100%; padding: 6px 10px;">
+            <option value="Rawat Jalan Klinik Pratama BNNK Buleleng">Rawat Jalan Klinik Pratama BNNK Buleleng</option>
+            <option value="Rawat Inap RSJ Bangli">Rawat Inap RSJ Bangli</option>
+            <option value="Rawat Jalan BNNP Bali">Rawat Jalan BNNP Bali</option>
+            <option value="Rawat Inap Balai Lido">Rawat Inap Balai Besar Lido, Bogor</option>
+            <option value="Rawat Inap Balai Badoka">Rawat Inap Balai Badoka, Makassar</option>
+            <option value="Rawat Inap Balai Tanah Merah">Rawat Inap Balai Tanah Merah, Samarinda</option>
+            <option value="Rawat Inap Loka Batam">Rawat Inap Loka Rehabilitasi Batam</option>
+          </select>
+        </div>
+
+        <div class="form-group" style="margin-top: 12px;">
+          <label for="modalNotes" class="panel-label">Catatan / Keterangan Perkembangan Pasien: <span class="req">*</span></label>
+          <textarea id="modalNotes" class="textarea-notes" rows="3"
+            placeholder="Masukkan perkembangan hasil asesmen, konseling, atau status terkini klien..."></textarea>
+        </div>
+      </div>
+
+      <div class="modal-footer-bar">
+        <button type="button" class="btn-action-cancel" id="btnCancelModal">Batal</button>
+        <div class="modal-footer-right">
+          <button type="button" class="btn-action-pdf" id="btnPrintPdf">&#128196; Cetak Rekam (PDF)</button>
+          <button type="button" class="btn-action-save" id="btnSaveStatus">&#128190; Simpan Perubahan Status</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast-msg" id="toastMsg"></div>
+
+  <script src="assets/js/monitoring-pasien.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Formulir Registrasi & Penerimaan Pasien Rehabilitasi - BNNK Buleleng">
+  <title>SIM-REHAB | Formulir Registrasi Pasien - BNNK Buleleng</title>
+  <link rel="icon" type="image/png" href="assets/images/bnn.png">
+  <link rel="stylesheet" href="assets/css/input-pasien.css">
+</head>
+
+<body>
+  <div class="app-layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <img src="assets/images/bnn.png" alt="Logo BNN" class="sidebar-logo">
+        <h1 class="sidebar-title">SIM-REHAB</h1>
+        <p class="sidebar-subtitle">BNNK BULELENG</p>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="dashboard.html" class="nav-item">
+          <span class="nav-icon">&#8962;</span>
+          Dashboard Utama
+        </a>
+        <a href="input-pasien.html" class="nav-item active">
+          <span class="nav-icon">&#128100;</span>
+          Input Pasien Baru
+        </a>
+        <a href="monitoring-pasien.html" class="nav-item">
+          <span class="nav-icon">&#128269;</span>
+          Monitoring Pasien
+        </a>
+        <a href="ekspor-impor.html" class="nav-item">
+          <span class="nav-icon">&#128194;</span>
+          Ekspor / Impor Data
+        </a>
+      </nav>
+
+      <div class="sidebar-user">
+        <p class="user-role" id="userRole">Super User (Kasi Rehab)</p>
+        <p class="user-id" id="userId">ID: 2121 (Seksi Rehab)</p>
+        <a href="index.html" class="logout-link" id="logoutBtn">[ Logout / Keluar ]</a>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content input-main">
+      <header class="page-header">
+        <h2 class="page-title">FORMULIR REGISTRASI &amp; PENERIMAAN KLIEN REHABILITASI</h2>
+        <span class="rec-medis-badge" id="recMedisId">ID Rekam Medis: [AUTO-2026-001]</span>
+      </header>
+
+      <!-- Scrollable Form Container -->
+      <div class="form-scroll-wrapper">
+        <form id="pasienForm" novalidate>
+          <div class="form-grid">
+
+            <!-- Panel 1: Data Identitas Klien (Standar Spreadsheet BNN) -->
+            <article class="form-panel panel-blue">
+              <div class="panel-header">
+                <h3 class="panel-title">1. Data Identitas Klien</h3>
+              </div>
+              <div class="panel-body">
+                <div class="form-group">
+                  <label for="nama" class="form-label">Nama Lengkap Klien <span class="req">*</span></label>
+                  <input type="text" id="nama" name="nama" class="form-control"
+                    placeholder="Contoh: Putu Jaka / Gede Sudiadnyana / Made Redita" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="nik" class="form-label">NIK (16 Digit KTP/KK) <span class="req">*</span></label>
+                  <input type="text" id="nik" name="nik" class="form-control" maxlength="16"
+                    placeholder="Contoh: 5108021010990001" required>
+                </div>
+
+                <div class="form-row-2">
+                  <div class="form-group">
+                    <label for="tglLahir" class="form-label">Tanggal Lahir / Tahun Lahir <span class="req">*</span></label>
+                    <input type="date" id="tglLahir" name="tglLahir" class="form-control" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="umur" class="form-label">Umur (Terhitung Otomatis)</label>
+                    <input type="text" id="umur" name="umur" class="form-control input-calc" value="-" readonly>
+                  </div>
+                </div>
+
+                <div class="form-row-2">
+                  <div class="form-group">
+                    <label class="form-label">Jenis Kelamin <span class="req">*</span></label>
+                    <div class="radio-group">
+                      <label class="radio-label">
+                        <input type="radio" name="gender" value="laki" checked>
+                        Laki-Laki
+                      </label>
+                      <label class="radio-label">
+                        <input type="radio" name="gender" value="perempuan">
+                        Perempuan
+                      </label>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="telepon" class="form-label">No. HP / Kontak WA <span class="req">*</span></label>
+                    <input type="tel" id="telepon" name="telepon" class="form-control"
+                      placeholder="Contoh: 087853981178 / 081337819456" required>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="pekerjaan" class="form-label">Pekerjaan Klien <span class="req">*</span></label>
+                  <select id="pekerjaan" name="pekerjaan" class="form-control">
+                    <option value="Tidak Bekerja" selected>Tidak Bekerja</option>
+                    <option value="Buruh">Buruh</option>
+                    <option value="Wiraswasta">Wiraswasta</option>
+                    <option value="Swasta">Swasta</option>
+                    <option value="Petani / Pekebun">Petani / Pekebun</option>
+                    <option value="Pedagang">Pedagang</option>
+                    <option value="Pegawai Negeri Sipil (PNS)">Pegawai Negeri Sipil (PNS)</option>
+                    <option value="Pelajar / Mahasiswa">Pelajar / Mahasiswa</option>
+                    <option value="Ibu Rumah Tangga">Ibu Rumah Tangga</option>
+                    <option value="Lainnya">Lainnya</option>
+                  </select>
+                </div>
+
+                <div class="form-row-2">
+                  <div class="form-group">
+                    <label for="kecamatan" class="form-label">Kecamatan Asal <span class="req">*</span></label>
+                    <select id="kecamatan" name="kecamatan" class="form-control" required>
+                      <option value="buleleng" selected>Buleleng</option>
+                      <option value="sukasada">Sukasada</option>
+                      <option value="seririt">Seririt</option>
+                      <option value="gerokgak">Gerokgak</option>
+                      <option value="banjar">Banjar</option>
+                      <option value="sawan">Sawan</option>
+                      <option value="kubutambahan">Kubutambahan</option>
+                      <option value="busungbiu">Busungbiu</option>
+                      <option value="tejakula">Tejakula</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="desa" class="form-label">Desa / Kelurahan <span class="req">*</span></label>
+                    <select id="desa" name="desa" class="form-control" required>
+                      <!-- Populated dynamically via JS -->
+                      <option value="singaraja" selected>Singaraja</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-row-2">
+                  <div class="form-group">
+                    <label for="kabupatenAsal" class="form-label">Kabupaten Asal Klien <span class="req">*</span></label>
+                    <input type="text" id="kabupatenAsal" name="kabupatenAsal" class="form-control"
+                      value="Buleleng" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="alamat" class="form-label">Alamat / Banjar Lengkap</label>
+                    <input type="text" id="alamat" name="alamat" class="form-control"
+                      placeholder="Contoh: Desa Baktiseraga, Gg. Arjuna No. 5 / Br. Kawan">
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <!-- Panel 2: Administrasi Surat & Rujukan BNN (Standar Format BNN) -->
+            <article class="form-panel panel-amber">
+              <div class="panel-header">
+                <h3 class="panel-title">2. Administrasi Surat, Rujukan &amp; Layanan</h3>
+              </div>
+              <div class="panel-body">
+                <div class="form-row-2">
+                  <div class="form-group">
+                    <label for="nomorSurat" class="form-label">Nomor Surat / Register</label>
+                    <input type="text" id="nomorSurat" name="nomorSurat" class="form-control"
+                      placeholder="Contoh: R/06/XI/2018/BNNK atau -">
+                  </div>
+                  <div class="form-group">
+                    <label for="tglKedatangan" class="form-label">Tanggal Kedatangan <span class="req">*</span></label>
+                    <input type="date" id="tglKedatangan" name="tglKedatangan" class="form-control" required>
+                  </div>
+                </div>
+
+                <div class="form-row-2">
+                  <div class="form-group">
+                    <label for="tahunRehab" class="form-label">Tahun Rehabilitasi <span class="req">*</span></label>
+                    <select id="tahunRehab" name="tahunRehab" class="form-control" required>
+                      <option value="2026" selected>2026 (Tahun Berjalan)</option>
+                      <option value="2025">2025</option>
+                      <option value="2024">2024</option>
+                      <option value="2023">2023</option>
+                      <option value="2022">2022</option>
+                      <option value="2021">2021</option>
+                      <option value="2020">2020</option>
+                      <option value="2019">2019</option>
+                      <option value="2018">2018</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="kabupatenRujukan" class="form-label">Kabupaten Tujuan Rujukan <span class="req">*</span></label>
+                    <input type="text" id="kabupatenRujukan" name="kabupatenRujukan" class="form-control input-calc"
+                      value="Buleleng" required>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="kepada" class="form-label">Kepada / Instansi Tujuan Rujukan <span class="req">*</span></label>
+                  <select id="kepada" name="kepada" class="form-control" required>
+                    <option value="Klinik Pratama BNNK Buleleng" selected>Klinik Pratama BNNK Buleleng (Buleleng)</option>
+                    <option value="UPTD. Rumah Sakit Jiwa Provinsi Bali Cq. Poli Psikiatri Rumah Sakit Jiwa Provinsi Bali">UPTD. Rumah Sakit Jiwa Provinsi Bali (Bangli)</option>
+                    <option value="Kepala Badan Narkotika Nasional Provinsi Bali Cq. Kepala Bidang Rehabilitasi">Kepala Badan Narkotika Nasional Provinsi Bali (Denpasar)</option>
+                    <option value="Balai Besar Rehabilitasi BNN Lido, Bogor">Balai Besar Rehabilitasi BNN Lido, Bogor (Bogor)</option>
+                    <option value="Balai Rehabilitasi BNN Badoka, Makassar">Balai Rehabilitasi BNN Badoka, Makassar (Makassar)</option>
+                    <option value="Balai Rehabilitasi BNN Tanah Merah, Samarinda">Balai Rehabilitasi BNN Tanah Merah, Samarinda (Samarinda)</option>
+                    <option value="Loka Rehabilitasi BNN Batam">Loka Rehabilitasi BNN Batam (Batam)</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="statusRawat" class="form-label">Status Rawatan Pasien <span class="req">*</span></label>
+                  <select id="statusRawat" name="statusRawat" class="form-control" required>
+                    <option value="Rawat Jalan Klinik Pratama BNNK Buleleng" selected>Rawat Jalan Klinik Pratama BNNK Buleleng (Kab. Buleleng)</option>
+                    <option value="Rawat Inap RSJ Bangli">Rawat Inap RSJ Bangli (Kab. Bangli)</option>
+                    <option value="Rawat Jalan BNNP Bali">Rawat Jalan BNNP Bali (Kota Denpasar)</option>
+                    <option value="Rawat Inap Balai Lido">Rawat Inap Balai Besar Lido (Kab. Bogor)</option>
+                    <option value="Rawat Inap Balai Badoka">Rawat Inap Balai Badoka (Kota Makassar)</option>
+                    <option value="Rawat Inap Balai Tanah Merah">Rawat Inap Balai Tanah Merah (Kota Samarinda)</option>
+                    <option value="Rawat Inap Loka Batam">Rawat Inap Loka Rehabilitasi Batam</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                    <label class="form-label" style="margin-bottom: 0;">Status Riwayat Rehabilitasi</label>
+                    <div style="display: flex; align-items: center; gap: 6px;">
+                      <span style="font-size: 0.74rem; color: #64748b;">Kategori:</span>
+                      <select id="rehabKeSelect" class="form-control"
+                        style="width: auto; padding: 2px 8px; font-size: 0.74rem; height: 28px; min-width: 100px;">
+                        <option value="Ke-1" selected>Ke-1 (Klien Baru)</option>
+                        <option value="Ke-2">Ke-2 (Relapse / Kambuh)</option>
+                        <option value="Ke-3">Ke-3 (Relapse / Kambuh)</option>
+                        <option value="Ke-4+">Ke-4+ (Relapse Kronis)</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="status-riwayat-banner" id="statusRiwayatBanner">
+                    <span class="badge-dot" id="badgeDot"></span>
+                    <span id="statusRiwayatText">Status: Klien Baru (Ke-1) - Belum ada riwayat sebelumnya di SIM-REHAB.</span>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="keterangan" class="form-label">Catatan / Keterangan Kondisi Klien <span
+                      class="req">*</span></label>
+                  <textarea id="keterangan" name="keterangan" class="form-control" rows="3"
+                    placeholder="Contoh: Klien datang sukarela didampingi keluarga, hasil asesmen disetujui untuk rujukan rawat..." required></textarea>
+                </div>
+
+                <div class="status-awal-box">
+                  <span>Status Awal Pasien:</span>
+                  <span class="badge-ongoing">ON GOING / PROSES</span>
+                </div>
+              </div>
+            </article>
+
+          </div>
+        </form>
+      </div>
+
+      <!-- Bottom Sticky Footer Bar -->
+      <footer class="form-footer-bar">
+        <p class="footer-hint">* Format data telah diselaraskan dengan Standar Buku Registrasi Klien BNNK Buleleng (2018 - 2026)</p>
+        <div class="footer-actions">
+          <button type="button" class="btn-cancel" id="btnCancel">Batal / Kembali</button>
+          <button type="submit" form="pasienForm" class="btn-submit" id="btnSubmit">&#128190; Simpan Data Klien BNN</button>
+        </div>
+      </footer>
+    </main>
+
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast-msg" id="toastMsg"></div>
+
+  <script src="assets/js/input-pasien.js"></script>
+</body>
+
+</html>

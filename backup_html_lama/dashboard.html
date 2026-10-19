@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Dashboard SIM-REHAB - Statistik & Monitoring Pasien Rehabilitasi BNNK Buleleng">
+  <title>SIM-REHAB | Dashboard Utama - BNNK Buleleng</title>
+  <link rel="icon" type="image/png" href="assets/images/bnn.png">
+  <link rel="stylesheet" href="assets/css/dashboard.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer></script>
+</head>
+
+<body>
+  <div class="app-layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <img src="assets/images/bnn.png" alt="Logo BNN" class="sidebar-logo">
+        <h1 class="sidebar-title">SIM-REHAB</h1>
+        <p class="sidebar-subtitle">BNNK BULELENG</p>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="dashboard.html" class="nav-item active">
+          <span class="nav-icon">&#8962;</span>
+          Dashboard Utama
+        </a>
+        <a href="input-pasien.html" class="nav-item">
+          <span class="nav-icon">&#128100;</span>
+          Input Pasien Baru
+        </a>
+        <a href="monitoring-pasien.html" class="nav-item">
+          <span class="nav-icon">&#128269;</span>
+          Monitoring Pasien
+        </a>
+        <a href="ekspor-impor.html" class="nav-item">
+          <span class="nav-icon">&#128194;</span>
+          Ekspor / Impor Data
+        </a>
+        <a href="#" class="nav-item">
+          <span class="nav-icon">&#9881;</span>
+          Pengaturan Akun
+        </a>
+      </nav>
+
+      <div class="sidebar-user">
+        <p class="user-role" id="userRole">Petugas / Super User</p>
+        <p class="user-id" id="userId">ID: 2121 (Seksi Rehab)</p>
+        <a href="index.html" class="logout-link" id="logoutBtn">[ Logout / Keluar ]</a>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content dashboard-main">
+      <header class="page-header">
+        <h2 class="page-title">Dashboard Statistik &amp; Monitoring Pasien Rehabilitasi</h2>
+        <div class="page-date">
+          <span class="date-icon">&#128197;</span>
+          <span id="currentDate">01 September 2026</span>
+        </div>
+      </header>
+
+      <!-- Filter Bar -->
+      <section class="filter-bar">
+        <span class="filter-label">&#128269; Filter Data:</span>
+        <div class="filter-group">
+          <label for="filterTahun">Tahun:</label>
+          <select id="filterTahun">
+            <option value="semua">Semua Tahun (2018 - 2026)</option>
+            <option value="2026" selected>2026</option>
+            <option value="2025">2025</option>
+            <option value="2024">2024</option>
+            <option value="2023">2023</option>
+            <option value="2022">2022</option>
+            <option value="2021">2021</option>
+            <option value="2020">2020</option>
+            <option value="2019">2019</option>
+            <option value="2018">2018</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label for="filterGender">Jenis Kelamin:</label>
+          <select id="filterGender">
+            <option value="semua" selected>Semua</option>
+            <option value="laki">Laki-laki</option>
+            <option value="perempuan">Perempuan</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label for="filterKecamatan">Kecamatan:</label>
+          <select id="filterKecamatan">
+            <option value="semua" selected>Semua Kecamatan</option>
+            <option value="buleleng">Buleleng</option>
+            <option value="sukasada">Sukasada</option>
+            <option value="seririt">Seririt</option>
+            <option value="gerokgak">Gerokgak</option>
+            <option value="banjar">Banjar</option>
+            <option value="sawan">Sawan</option>
+            <option value="kubutambahan">Kubutambahan</option>
+            <option value="busungbiu">Busungbiu</option>
+            <option value="tejakula">Tejakula</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label for="filterStatus">Status Rawat / Progres:</label>
+          <select id="filterStatus">
+            <option value="semua" selected>Semua Status</option>
+            <option value="ongoing">On Going (Sedang Berjalan)</option>
+            <option value="rawat_jalan">Rawat Jalan (Klinik BNNK)</option>
+            <option value="rawat_inap">Rawat Inap (Rujukan)</option>
+            <option value="selesai">Selesai / Pulih</option>
+            <option value="dropout">Drop Out (DO)</option>
+          </select>
+        </div>
+      </section>
+
+      <!-- Dashboard Scrollable Area -->
+      <div class="dashboard-scroll-wrapper">
+        <!-- Stat Cards -->
+        <section className="stat-cards" class="stat-cards">
+          <article class="stat-card stat-blue">
+            <p class="stat-label">Total Pasien Masuk</p>
+            <p class="stat-value" id="statTotal">0</p>
+            <a href="monitoring-pasien.html" class="stat-btn" style="text-decoration:none; display:inline-block; text-align:center;">Semua Pasien &rarr;</a>
+          </article>
+          <article class="stat-card stat-teal">
+            <p class="stat-label">Aktif Rawat Jalan</p>
+            <p class="stat-value" id="statRawatJalan">0</p>
+            <a href="monitoring-pasien.html" class="stat-btn" style="text-decoration:none; display:inline-block; text-align:center;">Klinik Pratama &rarr;</a>
+          </article>
+          <article class="stat-card stat-orange">
+            <p class="stat-label">Rawat Inap (Rujukan)</p>
+            <p class="stat-value" id="statRawatInap">0</p>
+            <a href="monitoring-pasien.html" class="stat-btn" style="text-decoration:none; display:inline-block; text-align:center;">Balai Lido / RSJ &rarr;</a>
+          </article>
+          <article class="stat-card stat-green">
+            <p class="stat-label">Selesai / Pulih</p>
+            <p class="stat-value" id="statSelesai">0</p>
+            <a href="monitoring-pasien.html" class="stat-btn" style="text-decoration:none; display:inline-block; text-align:center;">Program Selesai &rarr;</a>
+          </article>
+          <article class="stat-card stat-rose">
+            <p class="stat-label">Drop Out (DO)</p>
+            <p class="stat-value" id="statDropout">0</p>
+            <a href="monitoring-pasien.html" class="stat-btn" style="text-decoration:none; display:inline-block; text-align:center;">Klien DO &rarr;</a>
+          </article>
+        </section>
+
+        <!-- Charts -->
+        <section class="charts-row">
+          <article class="chart-panel">
+            <h3 class="chart-title">Distribusi Status Progres Klien</h3>
+            <div class="chart-wrap">
+              <canvas id="donutChart"></canvas>
+            </div>
+            <div class="chart-legend" id="chartLegend">
+              <span id="legOngoing"><i class="dot dot-blue"></i> On Going (0%)</span>
+              <span id="legSelesai"><i class="dot dot-green"></i> Selesai / Pulih (0%)</span>
+              <span id="legDropout"><i class="dot dot-rose"></i> Drop Out (0%)</span>
+            </div>
+          </article>
+          <article class="chart-panel">
+            <h3 class="chart-title">Sebaran Klien per Kecamatan (Kab. Buleleng)</h3>
+            <div class="chart-wrap chart-wrap-bar">
+              <canvas id="barChart"></canvas>
+            </div>
+          </article>
+        </section>
+      </div>
+    </main>
+
+  </div>
+
+  <script src="assets/js/dashboard.js"></script>
+</body>
+
+</html>
